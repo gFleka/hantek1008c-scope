@@ -1,0 +1,27 @@
+[package]
+name = "hantek1008c"
+version = "0.1.1"
+edition = "2021"
+description = "LR Scope 1008C: free automotive oscilloscope software for the Hantek 1008C, by Light Racing"
+license = "Apache-2.0"
+
+[dependencies]
+# vendored libusb: same code path on Linux and Windows (WinUSB via Zadig)
+rusb = { version = "0.9", features = ["vendored"] }
+log = "0.4"
+env_logger = { version = "0.11", default-features = false, features = ["auto-color"] }
+eframe = { version = "0.37", default-features = false, features = ["wgpu", "default_fonts", "x11", "wayland"] }
+triple_buffer = "9"
+# already in the tree through eframe: PNG screenshots, CRC for the sigrok (.sr) zip
+png = "0.18"
+crc32fast = "1.5"
+
+[target.'cfg(unix)'.dependencies]
+# statvfs for the recording keep-free guard (already in the tree via rusb)
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+debug = 1          # symbols for perf/flamegraph during speed reviews

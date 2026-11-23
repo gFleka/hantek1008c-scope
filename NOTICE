@@ -1,0 +1,2 @@
+The USB protocol implementation in src/hantek.rs is a port of hantek1008py
+(https://github.com/mfg92/hantek1008py), Copyright its authors, Apache License 2.0.
